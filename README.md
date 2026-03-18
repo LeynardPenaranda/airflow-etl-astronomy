@@ -11,16 +11,19 @@ The pipeline demonstrates best practices in data engineering, utilizing Airflow'
 ## 🏗️ Key Components
 
 ### 🌬️ Apache Airflow for Orchestration
+
 - **Workflow Management**: Airflow defines and schedules the entire ETL pipeline as a Directed Acyclic Graph (DAG), ensuring tasks execute in the correct order with proper dependencies.
 - **Monitoring & Scheduling**: Built-in web UI for real-time monitoring, task retries, and flexible scheduling (daily runs in this case).
 - **TaskFlow API**: Modern Pythonic approach using decorators for clean, readable task definitions.
 
 ### 🐘 PostgreSQL Database
+
 - **Data Storage**: Robust relational database for storing transformed astronomical data.
 - **Docker Integration**: Containerized Postgres with persistent volumes for data durability.
 - **Airflow Integration**: Seamless interaction via PostgresHook and PostgresOperator for efficient database operations.
 
 ### 🌌 NASA APOD API
+
 - **Data Source**: Rich astronomical content including daily images, titles, explanations, and metadata.
 - **HTTP Operations**: Leveraged through Airflow's SimpleHttpOperator for reliable API interactions.
 - **JSON Processing**: Handles structured API responses with ease.
@@ -28,15 +31,18 @@ The pipeline demonstrates best practices in data engineering, utilizing Airflow'
 ## 🎯 Project Objectives
 
 ### 📥 Extract
+
 - **Automated Fetching**: Daily scheduled extraction of fresh astronomical data from NASA's APOD API.
 - **Reliable Requests**: Robust HTTP handling with proper error management and retries.
 
 ### 🔄 Transform
+
 - **Data Processing**: Intelligent parsing and cleaning of API responses.
 - **Format Optimization**: Ensures data compatibility with database schema requirements.
 - **Quality Assurance**: Validation and standardization of fields like title, explanation, URL, and date.
 
 ### 📤 Load
+
 - **Database Integration**: Efficient insertion of transformed data into PostgreSQL.
 - **Schema Management**: Automatic table creation if needed, with proper indexing for performance.
 - **Data Persistence**: Secure storage enabling downstream analytics and reporting.
@@ -50,16 +56,19 @@ Our ETL pipeline follows a clean, three-stage architecture orchestrated through 
 ```
 
 ### 1. Extract Stage
+
 - **SimpleHttpOperator**: Makes authenticated GET requests to NASA's APOD endpoint.
 - **JSON Response Handling**: Captures rich metadata including image URLs, descriptions, and astronomical context.
 - **Error Resilience**: Built-in retry mechanisms for API reliability.
 
 ### 2. Transform Stage
+
 - **TaskFlow Processing**: Python-based transformation using Airflow's `@task` decorator.
 - **Data Refinement**: Extracts key fields (title, explanation, URL, date) and applies formatting.
 - **Validation**: Ensures data integrity before database insertion.
 
 ### 3. Load Stage
+
 - **PostgresHook Integration**: Direct database connectivity for efficient data loading.
 - **Dynamic Schema**: Automatic table creation with appropriate data types.
 - **Batch Operations**: Optimized insertion for performance and reliability.
@@ -67,18 +76,22 @@ Our ETL pipeline follows a clean, three-stage architecture orchestrated through 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Docker & Docker Compose
 - Git
 - Basic understanding of containerized workflows
 
 ### Quick Setup
+
 1. **Clone the Repository**
+
    ```bash
    git clone <repository-url>
    cd etl-pipeline
    ```
 
 2. **Launch the Environment**
+
    ```bash
    docker-compose up -d
    ```
@@ -92,6 +105,7 @@ Our ETL pipeline follows a clean, three-stage architecture orchestrated through 
    - Watch the magic happen!
 
 ### Configuration
+
 - **API Key**: Obtain a NASA API key from [NASA's API Portal](https://api.nasa.gov/)
 - **Environment Variables**: Configure database connections and API credentials
 - **Scheduling**: Adjust DAG schedule intervals as needed
@@ -100,23 +114,25 @@ Our ETL pipeline follows a clean, three-stage architecture orchestrated through 
 
 The pipeline creates a `apod_data` table with the following structure:
 
-| Column      | Type          | Description                    |
-|-------------|---------------|--------------------------------|
-| id          | SERIAL        | Primary key                    |
-| date        | DATE          | APOD date                      |
-| title       | VARCHAR(500)  | Image title                    |
-| explanation | TEXT          | Astronomical explanation       |
-| url         | VARCHAR(1000) | Image URL                      |
-| created_at  | TIMESTAMP     | Record creation timestamp      |
+| Column      | Type         | Description              |
+| ----------- | ------------ | ------------------------ |
+| id          | SERIAL       | Primary key              |
+| title       | VARCHAR(255) | Image title              |
+| explanation | TEXT         | Astronomical explanation |
+| url         | TEXT         | Image URL                |
+| date        | DATE         | APOD date                |
+| media_type  | VARCHAR(50)  | Media type (image/video) |
 
 ## 🔧 Development & Testing
 
 ### Testing Suite
+
 - Unit tests for transformation logic
 - Integration tests for API and database interactions
 - DAG validation tests
 
 ### Local Development
+
 ```bash
 # Run tests
 docker-compose exec airflow-webserver python -m pytest tests/
@@ -128,6 +144,7 @@ docker-compose exec postgres psql -U airflow -d apod_db
 ## 🤝 Contributing
 
 We welcome contributions! Whether it's:
+
 - 🐛 Bug fixes
 - ✨ New features
 - 📚 Documentation improvements
@@ -147,4 +164,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-*May your data pipelines be as infinite as the cosmos!* ✨🪐
+_May your data pipelines be as infinite as the cosmos!_ ✨🪐
